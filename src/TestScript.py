@@ -131,7 +131,7 @@ def check_valid_add_employee_form(driver, firstname, middlename, lastname, emplo
         assert valid_err not in driver.page_source  # checkpoint for exist id
 
     if photofile_name:
-        if os.path.splitext(photofile_name)[1] not in [".png", "jpg", ".gif"]:
+        if os.path.splitext(photofile_name)[1] not in [".png", ".jpg", ".gif"]:
             valid_err = "Failed to Save: File Type Not Allowed"
             assert valid_err not in driver.page_source  # checkpoint for file in .png, .jpg, .gif
 
@@ -187,21 +187,21 @@ class TestScript(EnvSetup):
         dashboard_url = base_url + "/symfony/web/index.php/dashboard"
         add_employee_url = base_url + "/symfony/web/index.php/pim/addEmployee"
 
-        for index, row in testdata_df.iterrows():
-            first_name = row["first_name"]
-            middle_name = row["middle_name"]
-            last_name = row["last_name"]
-            employee_id = row["id"]
-            photofile = row["photofile"]
+        try:
+            # navigate orangehrm root
+            self.driver.get(base_url)
+            assert self.driver.current_url == login_url  # checkpoint navigate to authentication page
 
-            try:
-                # navigate orangehrm root
-                self.driver.get(base_url)
-                assert self.driver.current_url == login_url  # checkpoint navigate to authentication page
+            # perform login
+            perform_login(self.driver, admin_user, admin_pwd)
+            assert self.driver.current_url == dashboard_url  # checkpoint navigate to dashboard page
 
-                # perform login
-                perform_login(self.driver, admin_user, admin_pwd)
-                assert self.driver.current_url == dashboard_url  # checkpoint navigate to dashboard page
+            for index, row in testdata_df.iterrows():
+                first_name = row["first_name"]
+                middle_name = row["middle_name"]
+                last_name = row["last_name"]
+                employee_id = row["id"]
+                photofile = row["photofile"]
 
                 # navigate to add employee in menu pim
                 navigate_add_employee_page(self.driver)
@@ -217,7 +217,8 @@ class TestScript(EnvSetup):
 
                 # check valid form
                 if err:
-                    check_valid_add_employee_form(self.driver, first_name, middle_name, last_name, employee_id, photofile)
+                    check_valid_add_employee_form(self.driver, first_name, middle_name, last_name, employee_id,
+                                                  photofile)
 
                 # check valid result
                 else:
@@ -225,8 +226,9 @@ class TestScript(EnvSetup):
 
                 update_test_result(testdata_path, "pass", index)
                 print("pass")
-            except AssertionError:
-                update_test_result(testdata_path, "fail", index)
+
+        except AssertionError:
+            update_test_result(testdata_path, "fail", index)
 
 
 if __name__ == "__main__":
