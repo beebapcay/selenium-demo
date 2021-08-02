@@ -6,6 +6,7 @@ import datetime
 
 class EnvSetup(unittest.TestCase):
     def setUp(self):
+        print()
         print("Environment Setup")
         self.driver = webdriver.Chrome(ChromeDriverManager().install())  # use webdriver - manager
         print("TestScript Run Started: " + str(datetime.datetime.now()))
@@ -16,5 +17,6 @@ class EnvSetup(unittest.TestCase):
         if self.driver is not None:
             self.driver.close()
             self.driver.quit()
+            print()
             print("Environment Destroyed")
             print("TestScript Run Completed:" + str(datetime.datetime.now()))

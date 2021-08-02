@@ -1,7 +1,7 @@
 first_name,middle_name,last_name,id,photofile,test_status,execution_completion
-Phat,Tan,Duong,001,test1.jpg,pass,2021-07-27 09:07:57.493299
-,,,002,,pass,2021-07-27 09:08:03.231272
-,Minh,Ha,003,,pass,2021-07-27 09:08:10.933443
-Duong,,,,,pass,2021-07-27 09:08:16.527323
-Phat,,Duong,006,test3.md,pass,2021-07-27 09:08:26.079829
-Phat ,,Duong,006,,pass,2021-07-27 09:08:34.980149
+Phat,Tan,Duong,001,test1.jpg,pass,2021-08-02 08:06:48.309018
+,,,002,,pass,2021-08-02 08:06:53.395892
+,Minh,Ha,003,,pass,2021-08-02 08:07:00.589988
+Duong,,,,,pass,2021-08-02 08:07:05.685207
+Phat,,Duong,006,test3.md,pass,2021-08-02 08:07:14.442996
+Phat ,,Duong,006,,pass,2021-08-02 08:07:22.496153

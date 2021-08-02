@@ -197,38 +197,43 @@ class TestScript(EnvSetup):
             assert self.driver.current_url == dashboard_url  # checkpoint navigate to dashboard page
 
             for index, row in testdata_df.iterrows():
-                first_name = row["first_name"]
-                middle_name = row["middle_name"]
-                last_name = row["last_name"]
-                employee_id = row["id"]
-                photofile = row["photofile"]
+                try:
+                    first_name = row["first_name"]
+                    middle_name = row["middle_name"]
+                    last_name = row["last_name"]
+                    employee_id = row["id"]
+                    photofile = row["photofile"]
 
-                # navigate to add employee in menu pim
-                navigate_add_employee_page(self.driver)
-                assert self.driver.current_url == add_employee_url  # checkpoint navigate to pim add employee page
+                    # navigate to add employee in menu pim
+                    navigate_add_employee_page(self.driver)
+                    assert self.driver.current_url == add_employee_url  # checkpoint navigate to pim add employee page
 
-                # perform input testdata for adding employee
-                perform_add_employee(self.driver, first_name, middle_name, last_name, employee_id, photofile)
-                time.sleep(1)
+                    # perform input testdata for adding employee
+                    perform_add_employee(self.driver, first_name, middle_name, last_name, employee_id, photofile)
+                    time.sleep(1)
 
-                err = True
-                if first_name and last_name and not is_exists_id(employee_id) and is_accept_photofile(photofile):
-                    err = False
+                    err = True
+                    if first_name and last_name and not is_exists_id(employee_id) and is_accept_photofile(photofile):
+                        err = False
 
-                # check valid form
-                if err:
-                    check_valid_add_employee_form(self.driver, first_name, middle_name, last_name, employee_id,
-                                                  photofile)
+                    # check valid form
+                    if err:
+                        check_valid_add_employee_form(self.driver, first_name, middle_name, last_name, employee_id,
+                                                      photofile)
 
-                # check valid result
-                else:
-                    check_valid_result_info(self.driver, first_name, middle_name, last_name, employee_id, photofile)
+                    # check valid result
+                    else:
+                        check_valid_result_info(self.driver, first_name, middle_name, last_name, employee_id, photofile)
 
-                update_test_result(testdata_path, "pass", index)
-                print("pass")
+                    update_test_result(testdata_path, "pass", index)
+                    print(".", end=" ")
+
+                except AssertionError:
+                    update_test_result(testdata_path, "fail", index)
+                    print("x", end=" ")
 
         except AssertionError:
-            update_test_result(testdata_path, "fail", index)
+            print("FAILED LOGIN")
 
 
 if __name__ == "__main__":
